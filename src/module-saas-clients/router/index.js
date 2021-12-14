@@ -28,7 +28,7 @@ export default [
         meta: {title: 'SaaS企业管理', icon: 'component', noCache: true}
       },
       {
-        path: 'details/:id',
+        path: 'details/:id',  //请求地址   -- /saas-clients/index
         component: _import('saas-clients/pages/detail'), //跳转的vue视图
         name: 'saas-clients-detail',
         meta: {title: 'SaaS企业详情', icon: 'component', noCache: true}

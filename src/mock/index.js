@@ -15,9 +15,18 @@ Mock.mock(/\/table\/list\.*/, 'get', TableAPI.list)
 Mock.mock(/\/frame\/profile/, 'post', ProfileAPI.profile)
 Mock.mock(/\/frame\/login/, 'post', LoginAPI.login)
 
+// 注意，Mock.mock(/\/company\.*/, 这种是不行的，会把对/company的访问也拦截下来
+// Mock.mock(/\/company\/+/, 'get', CompanyAPI.sassDetail) //根据id查询具体数据
+// Mock.mock(/\/company/, 'get', CompanyAPI.list) //访问企业列表
+
+
+
+
+
+
 //配置模拟数据接口
 //  /company/12
-// Mock.mock(/\/company\/+/, 'get', CompanyAPI.sassDetail)//根据ID查询 
+// Mock.mock(/\/company\/+/, 'get', CompanyAPI.sassDetail)//根据ID查询
 // Mock.mock(/\/company/, 'get', CompanyAPI.list)//访问企业列表
 
 
