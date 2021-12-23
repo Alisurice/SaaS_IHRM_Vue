@@ -21,6 +21,8 @@ import demo from '@/module-demo/' // 面板
 import saasClients from '@/module-saas-clients/' // 企业管理
 import departments from '@/module-departments'
 import employees from '@/module-employees'
+import settings from '@/module-settings'
+
 
 import tools from './utils/common.js'
 Vue.prototype.$tools = tools
@@ -31,6 +33,8 @@ Vue.use(demo, store)
 // Vue.use(saasClients, store)
 Vue.use(departments, store)
 Vue.use(employees, store)
+Vue.use(settings, store)
+
 
 /*
 * 注册 - 组件
