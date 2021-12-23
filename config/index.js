@@ -11,10 +11,19 @@ module.exports = {
     assetsPublicPath: '',
     proxyTable: {
       //企业信息请求的远程服务 //Updated 将直接对后台问服务请求,改为请求Zuul网关
-      '/api': {
-        target: 'http://localhost:9091',
+      '/api/company': {
+        target: 'http://localhost:9001',
         changeOrigin: true,
         pathRewrite: {
+          '^/api': ''
+        }
+      },
+      '/api/sys': {
+        target: 'http://localhost:9002',
+        changeOrigin: true,
+        pathRewrite: {
+          //正则表达式，将开头的 /api 替换为 / ，余下部分照搬
+          //对于/api/sys,将替换为http://localhost:9002/sys
           '^/api': ''
         }
       }
