@@ -51,14 +51,14 @@
       </el-tree>
       <div slot="footer" class="dialog-footer">
         <el-button @click="permFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="assignPrem">确 定</el-button>
+        <el-button type="primary" @click="assignPerm">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import {list,add,update,remove,detail,assignPrem} from "@/api/base/role"
+import {list,add,update,remove,detail,assignPerm} from "@/api/base/role"
 import * as permApi from "@/api/base/permissions"
 import commonApi from "@/utils/common"
 import PageTool from './../../components/page/page-tool'
@@ -83,8 +83,8 @@ export default {
     }
   },
   methods: {
-    assignPrem() {
-      assignPrem({id:this.formData.id,permIds:this.$refs.tree.getCheckedKeys()}).then(res => {
+    assignPerm() {
+      assignPerm({id:this.formData.id,permIds:this.$refs.tree.getCheckedKeys()}).then(res => {
          this.$message({message:res.data.message,type:res.data.success?"success":"error"});
          this.permFormVisible=false
       })
