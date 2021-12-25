@@ -84,7 +84,10 @@ export default {
   },
   methods: {
     assignPerm() {
-      assignPerm({id:this.formData.id,permIds:this.$refs.tree.getCheckedKeys()}).then(res => {
+      let parentAndChild = this.$refs.tree.getCheckedKeys().concat(this.$refs.tree.getHalfCheckedKeys())
+      console.log(parentAndChild)
+
+      assignPerm({id:this.formData.id,permIds:parentAndChild}).then(res => {
          this.$message({message:res.data.message,type:res.data.success?"success":"error"});
          this.permFormVisible=false
       })
