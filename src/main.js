@@ -32,7 +32,7 @@ Vue.prototype.$tools = tools
 Vue.use(tools)
 Vue.use(dashboard, store)
 Vue.use(demo, store)
-// Vue.use(saasClients, store)
+Vue.use(saasClients, store)
 Vue.use(departments, store)
 Vue.use(employees, store)
 Vue.use(settings, store)

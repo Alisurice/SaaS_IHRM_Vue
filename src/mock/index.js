@@ -12,8 +12,8 @@ Mock.setup({
 //第一个参数匹配的请求api路径，第二个参数匹配请求的方式，第三个参数相应数据如何替换
 Mock.mock(/\/table\/list\.*/, 'get', TableAPI.list)
 //获取用户信息
-Mock.mock(/\/frame\/profile/, 'post', ProfileAPI.profile)
-Mock.mock(/\/frame\/login/, 'post', LoginAPI.login)
+// Mock.mock(/\/frame\/profile/, 'post', ProfileAPI.profile)
+// Mock.mock(/\/frame\/login/, 'post', LoginAPI.login)
 
 // 注意，Mock.mock(/\/company\.*/, 这种是不行的，会把对/company的访问也拦截下来
 // Mock.mock(/\/company\/+/, 'get', CompanyAPI.sassDetail) //根据id查询具体数据

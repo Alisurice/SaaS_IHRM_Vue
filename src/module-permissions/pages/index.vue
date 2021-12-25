@@ -27,10 +27,10 @@
 
       <el-dialog title="编辑权限" :visible.sync="dialogFormVisible" style="hight:100px;line-height:1px">
           <el-form v-if="dialogFormVisible" :model="formData" label-width="90px" style="margin-top:20px">
-            <el-form-item label="权限名称">
+            <el-form-item label="权限名称" required="true">
               <el-input v-model="formData.name" autocomplete="off" style="width:90%"></el-input>
             </el-form-item>
-            <el-form-item label="权限标识">
+            <el-form-item label="权限标识" required="true">
               <el-input v-model="formData.code" autocomplete="off" style="width:90%"></el-input>
             </el-form-item>
             <el-form-item label="权限描述">
