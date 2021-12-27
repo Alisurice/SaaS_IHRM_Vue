@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import {list, saveOrUpdate, find, deleteById} from '@/api/base/depts'
+  import {list, saveOrUpdate, find, deleteById} from '@/api/base/dept'
   import commonApi from '@/utils/common'
   export default {
     name: 'add-index',

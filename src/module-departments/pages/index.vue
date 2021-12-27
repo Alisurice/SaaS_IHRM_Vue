@@ -99,7 +99,7 @@
 </template>
 
 <script>
-  import {list, saveOrUpdate, find, deleteById} from '@/api/base/depts'
+  import {list, saveOrUpdate, find, deleteById} from '@/api/base/dept'
   import commonApi from '@/utils/common'
   import deptAdd from '@/module-departments/component/add'
   export default {

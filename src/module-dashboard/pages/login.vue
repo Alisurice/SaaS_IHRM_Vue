@@ -25,10 +25,10 @@
       <div class="regInfo"><router-link :to="{'path':'/reg'}">还没有账号？立即注册</router-link></div>
       <div class="tips">
         <!--<span>账号: <br>18636825185 (SaaS管理员)<br>-->
-        <span>账号: <br>asdfw (普通用户)<br>
+        <span>账号: <br>2341 (普通用户)<br>
          <!-- CompanyAdmin (企业管理员) <br>CompanyUser (企业用户)<br> -->
          </span>
-        <span>密码: 654321</span>
+        <span>密码: 123456</span>
       </div>
 
       <!-- <el-button class="thirdparty-button" type="primary" @click="showDialog=true">{{$t('login.thirdparty')}}</el-button> -->
@@ -77,7 +77,7 @@ export default {
     return {
       loginForm: {
         username: '13800000001',
-        password: '88012a09484c94fcec9e65b2377c44b9'
+        password: '123456'
       },
       loginRules: {
         username: [

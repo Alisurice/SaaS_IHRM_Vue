@@ -26,6 +26,15 @@ module.exports = {
           //对于/api/sys,将替换为http://localhost:9002/sys
           '^/api': ''
         }
+      },
+      '/api/employees': {
+        target: 'http://localhost:9003',
+        changeOrigin: true,
+        pathRewrite: {
+          //正则表达式，将开头的 /api 替换为 / ，余下部分照搬
+          //对于/api/sys,将替换为http://localhost:9002/sys
+          '^/api': ''
+        }
       }
     },
 

@@ -48,7 +48,7 @@
 
 <script>
 import { add, jobnumber } from '@/api/base/users'
-import  * as deptApi  from '@/api/base/depts'
+import  * as deptApi  from '@/api/base/dept'
 import employeesData from '@/api/constant/employees'
 import commonApi from '@/utils/common'
 var _this = null
@@ -69,7 +69,6 @@ export default {
         this.$message({message:res.data.message,type:res.data.success?"success":"error"});
         if(res.data.success) {
           this.dialogFormVisible = false
-          this.formBase = {}
           this.$emit('doQuery', {})
         }
       })
