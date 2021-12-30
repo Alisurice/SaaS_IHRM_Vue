@@ -19,7 +19,7 @@
               @keyup.enter.native='dataSearch()'>
             </el-input> 
           </div>
-          <a class="el-button fr el-button--primary el-button--mini" title="导出" @click='handleExport(1)'>导出</a>
+          <!--<a class="el-button fr el-button&#45;&#45;primary el-button&#45;&#45;mini" title="导出" @click='handleExport(1)'>导出</a>-->
            <!-- 
           <a class="el-button fr el-button--primary el-button--mini" title="导出" :href="exportUrl">导出</a>
          
@@ -265,14 +265,33 @@ export default {
       }
       importDown(data)
         .then(res => {
-          var elemIF = document.createElement("iframe");     
-          elemIF.src = res.request.responseURL;     
-          elemIF.style.display = "none";    
-          document.body.appendChild(elemIF);     
+          let fileName = decodeURIComponent(res.headers['content-disposition'].slice(res.headers['content-disposition'].indexOf('=') + 1));
+          console.log(fileName)
+          this.downloadFile(res.data, fileName);
         })
         .catch(e => {
           this.$message.error('导出报表失败！')
+          console.log(e)
         })
+    },
+    downloadFile(content, fileName) {
+      // (fileName && fileName.indexOf('.') !== -1) && (fileName = fileName.slice(0, fileName.indexOf('.')));
+      console.log(content.type)
+      const blob = new Blob([content], {
+        type: 'application/octet-stream'
+      })
+      if ('download' in document.createElement('a') && navigator.userAgent.indexOf('Edge') <= -1) { // 非IE 及edge下载
+        const elink = document.createElement('a')
+        fileName && (elink.download = fileName)
+        elink.style.display = 'none'
+        elink.href = URL.createObjectURL(blob)
+        document.body.appendChild(elink)
+        elink.click()
+        URL.revokeObjectURL(elink.href) // 释放URL 对象
+        document.body.removeChild(elink)
+      } else { // IE10+下载
+        fileName ? navigator.msSaveOrOpenBlob(blob, fileName) : navigator.msSaveOrOpenBlob(blob)
+      }
     },
 
     // 下载文件

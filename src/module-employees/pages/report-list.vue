@@ -70,8 +70,9 @@ export default {
     // 界面交互
     getYearM() {
       var date = new Date()
-      var year = date.getFullYear()
-      this.baseData.month = year + '-' + this.$route.params.month
+      // var year = date.getFullYear()
+      // this.baseData.month = year + '-' + this.$route.params.month
+      this.baseData.month = '2018' + '-' + '03'
     }
   },
   // 挂载结束

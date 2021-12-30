@@ -4,7 +4,6 @@ import {
   imgUpload
 } from '@/utils/request'
 
-export const employTemplate = data => createAPI(`/employees/template`, 'get', data) //模板
 export const list = data => createAPI('/employees', 'get', data)
 export const add = data => createAPI('/employees', 'post', data)
 export const employeesSimpleList = data => createAPI('/employees/simple', 'get', data)

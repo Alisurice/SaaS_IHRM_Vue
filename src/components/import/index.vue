@@ -12,7 +12,7 @@
       >
       <el-button size="small" type="primary" :disabled="processing">{{uploadTip}}</el-button>
       <div slot="tip" class="el-upload__tip">
-        <!--(推荐<span class="colRed pointer"><el-link @click="download()" >下载模板文件</el-link></span>，填写后上传)<br>-->
+        (推荐<span class="colRed pointer"><a :href="baseData.fileUrl">下载模板文件</a></span>，填写后上传)<br>
         <span @click="handleUpload" class="colRed pointer">点击查看文件上传要求</span>
       </div>
     </el-upload>
@@ -54,7 +54,6 @@
 <script>
 import { importFile } from '@/filters/index'
 import { getToken } from '@/utils/auth'
-import { employTemplate } from '@/api/base/employees'
 export default {
   name: 'import',
   props: ['baseData'],
@@ -79,27 +78,9 @@ export default {
   },
   methods: {
     // 业务方法
-    // todo 下载模板
+    // 下载模板
     download() {
-      employTemplate()
-        .then(res => {
-          if (!res) return;
-          let blob = new Blob([res.data], {
-            type: "application/octet-stream;charset=iso8859-1"
-          });
-          let url = window.URL.createObjectURL(blob);
-          let aLink = document.createElement("a");
-          aLink.style.display = "none";
-          aLink.href = url;
-          aLink.setAttribute("download", "template.xlsx"); // 下载的文件
-          document.body.appendChild(aLink);
-          aLink.click();
-          document.body.removeChild(aLink);
-          window.URL.revokeObjectURL(url);
-        })
-      .catch(error => {
-        this.$message.error(error);
-      });
+      this.$emit('handleExport')
     },
     // 文件上传完成
     typeTip(obj) {
@@ -116,11 +97,10 @@ export default {
     },
     // 上传成功
     handleFileSuccess(obj, file, fileList) {
-      console.log(obj);
       this.uploadTip = '点击上传'
       this.processing = false
       this.dialogImportVisible = false
-      if (obj.success == true) {
+      if (obj.code === 10000) {
         this.$message.success('导入成功' + '!')
       } else {
         this.$message.error('导入失败' + '!')

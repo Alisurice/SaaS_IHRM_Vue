@@ -46,7 +46,7 @@ export default {
       boxHeight: '',
       baseData: {
         upUrl: '/api/sys/user/import',
-        fileUrl: '/api/employees/template'
+        fileUrl: 'http://research.itcast.cn/files/saas-hrm/添加员工模板.xlsx'
       }
     }
   },
