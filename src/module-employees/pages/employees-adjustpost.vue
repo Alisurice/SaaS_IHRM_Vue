@@ -443,9 +443,9 @@ export default {
         this.simpleData.push(ret.data.items)
       })
       // // 员工列表
-      userApi.simple().then(ret => {
-        this.employeesSimpleListData = ret.data.data
-      })
+      // userApi.simple().then(ret => {
+      //   this.employeesSimpleListData = ret.data.data
+      // })
     },
     // 获取详情
     getObjInfo() {
