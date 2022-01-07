@@ -330,17 +330,26 @@ export function formatDate(date, fmt) {
 function padLeftZero(str) {
   return ('00' + str).substr(str.length)
 }
-export function getBlob(response) {
-  let blob = new Blob([response.data], {
-    type: 'application/vnd.ms-excel'
+
+export function getBlob(name, wb, xlsxr, FileSavers) { // name,wb,xlsxr,FileSavers
+  var wbout = xlsxr(wb, {
+    bookType: 'xlsx',
+    bookSST: true,
+    type: 'array'
   })
-  let link = document.createElement('a')
-  link.href = window.URL.createObjectURL(blob)
-  var filename = decodeURI(response.headers.filename)
-  // link.download = filename + '.xls'
-  link.download = filename
-  link.click()
+  try {
+    FileSavers(
+      new Blob([wbout], {
+        type: 'application/octet-stream'
+      }),
+      name + '.xlsx'
+    )
+  } catch (e) {
+    if (typeof console !== 'undefined') console.log(e, wbout)
+  }
+  return wbout
 }
+
 // 图片 blob 流转化为可用 src
 export function imgHandle(obj) {
   return window.URL.createObjectURL(obj)
