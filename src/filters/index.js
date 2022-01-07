@@ -331,7 +331,19 @@ function padLeftZero(str) {
   return ('00' + str).substr(str.length)
 }
 
+function createFile(urlData, fileType) {
+  var bytes = window.atob(urlData)
+  var n = bytes.length
+  var u8arr = new Uint8Array(n)
+  while (n--) {
+    u8arr[n] = bytes.charCodeAt(n)
+  }
+  return new Blob([u8arr], {
+    type: fileType
+  })
+}
 export function getBlob(name, wb, xlsxr, FileSavers) { // name,wb,xlsxr,FileSavers
+
   var wbout = xlsxr(wb, {
     bookType: 'xlsx',
     bookSST: true,
@@ -349,8 +361,19 @@ export function getBlob(name, wb, xlsxr, FileSavers) { // name,wb,xlsxr,FileSave
   }
   return wbout
 }
-
 // 图片 blob 流转化为可用 src
 export function imgHandle(obj) {
   return window.URL.createObjectURL(obj)
+}
+
+export function getInteger(e, callback) {
+  let boolean = new RegExp('^[1-9][0-9]*$').test(e.target.value)
+  if (!boolean) {
+    var tipType = '请输入正整数'
+    callback(tipType)
+    e.target.value = ''
+  }
+}
+export function getIntegerPoint(e, callback) {
+  e.target.value = e.target.value.match(/^\d*(\.?\d{0,1})/g)[0] || null
 }
