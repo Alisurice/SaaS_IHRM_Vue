@@ -25,6 +25,7 @@ import settings from '@/module-settings'
 import permissions from '@/module-permissions'
 import socialSecuritys from '@/module-social-securitys/' // 社保
 import attr from '@/module-attendances/' // 考勤
+import salarys from '@/module-salarys/' // 考勤
 
 import tools from './utils/common.js'
 Vue.prototype.$tools = tools
@@ -39,6 +40,7 @@ Vue.use(settings, store)
 Vue.use(permissions, store)
 Vue.use(socialSecuritys,store)
 Vue.use(attr,store)
+Vue.use(salarys,store)
 
 /*
 * 注册 - 组件
