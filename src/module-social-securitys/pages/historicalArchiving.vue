@@ -179,7 +179,7 @@ export default {
   data() {
     return {
       num: 0,
-      yearVal: "2021",
+      yearVal: "2020",
       tableData: []
     };
   },

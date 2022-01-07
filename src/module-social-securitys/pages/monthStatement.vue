@@ -119,7 +119,7 @@
       </div>
     </div>
     <div class="butList">
-      <span @click="archivingReport">归档{{this.yearMonth.substring(4)}}月份报表</span>
+      <span @click="archivingReport" >归档<span v-if="this.yearMonth">{{this.yearMonth.substring(4)}}</span>月份报表</span>
       <span @click="createReportForm">新建报表</span>
       <span class="cancel" @click="clickCancel">取消</span>
     </div>
