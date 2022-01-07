@@ -101,6 +101,10 @@ export default {
       }
     },
     handleLogin() {
+      if(this.loginForm.username.length < 6 || this.loginForm.password.length < 6){
+        this.$message.error('用户名或密码不能低于6位')
+        return;
+      }
       this.loading = true
       this.$store
         .dispatch('LoginByUsername', {
