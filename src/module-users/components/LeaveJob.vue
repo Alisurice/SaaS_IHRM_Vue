@@ -161,6 +161,7 @@ export default {
       sendForm.reasonsForApplication = this.ruleForm.cause;
       const { data: saveRes } = await applyeLave(sendForm);
       if (saveRes.success) {
+        this.$message.success(saveRes.message);
         this.ruleForm = {};
         this.$emit("closeDialog");
       }

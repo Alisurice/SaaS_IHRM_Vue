@@ -56,178 +56,180 @@
 </template>
 
 <script>
-import {detail} from '@/api/base/users'
-import {list} from '@/api/hrm/noticesApi'
-import Apply from './../components/Apply'
-import OverTimeWork from './../components/OverTimeWork'
-import LeaveRelevant from '../components/LeaveRelevant'
-import DateIndex from '../components/DateIndex'
-import { log } from 'util';
-export default {
-  name: 'users-table-index',
-  components: { Apply, OverTimeWork, LeaveRelevant, DateIndex },
-  data() {
-    return {
-      dialogVisible: false,
-      title: '离职',
-      lab: '',
-      userId: '',
-      myInfo: {
+  import {detail} from '@/api/base/users'
+  import {list} from '@/api/hrm/noticesApi'
+  import Apply from './../components/Apply'
+  import OverTimeWork from './../components/OverTimeWork'
+  import LeaveRelevant from '../components/LeaveRelevant'
+  import DateIndex from '../components/DateIndex'
+  import { log } from 'util';
+  import getters from '@/store/getters'
+
+  export default {
+    name: 'users-table-index',
+    components: { Apply, OverTimeWork, LeaveRelevant, DateIndex },
+    data() {
+      return {
+        dialogVisible: false,
+        title: '离职',
+        lab: '',
+        userId: '',
+        myInfo: {
+        },
+        noticesList: [
+        ]
+      }
+    },
+    methods: {
+      init() {
+        this.userInfo()
+        //this.getNotices()
       },
-      noticesList: [
-      ]
-    }
-  },
-  methods: {
-    init() {
-      this.userInfo()
-      this.getNotices()
-    },
-    noticeClick(item){
-      this.$bus.emit("noticeDetail",item)
-      this.$bus.off()
-    },
-    async userInfo(){
-        this.userId=this.$store.getters.userId
-        let id=this.userId
+      noticeClick(item){
+        this.$bus.emit("noticeDetail",item)
+        this.$bus.off()
+      },
+      async userInfo(){
+        this.userId=getters.userId;
+        let id=this.userId;
         const { data: userInfoRes } = await detail({id})
         if(userInfoRes.success == true){
-            this.myInfo=userInfoRes.data
+          this.myInfo=userInfoRes.data
         }
-    },
-    async getNotices(){
+      },
+      async getNotices(){
         let dataMonth = this.dataMonth
         const { data: noticesRes } = await list({status:1})
         if(noticesRes.success == true){
-            let arr = noticesRes.data.rows
-            if(arr.length > 3){
-              this.noticesList = arr.slice(0, 3)
-            }else{
-              this.noticesList = arr
-            }
+          let arr = noticesRes.data.rows
+          if(arr.length > 3){
+            this.noticesList = arr.slice(0, 3)
+          }else{
+            this.noticesList = arr
+          }
         }
-    },
-    apply(obj) {
-      if (obj === '离职' || obj === '加班') {
-        this.title = '申请'
-      } else if (obj === '事假' || obj === '调休') {
-        this.title = '请假'
+      },
+      apply(obj) {
+        if (obj === '离职' || obj === '加班') {
+          this.title = '申请'
+        } else if (obj === '事假' || obj === '调休') {
+          this.title = '请假'
+        }
+        this.lab = obj
+        this.dialogVisible = true
+      },
+      closeDialog(){
+        this.lab = ''
+        this.dialogVisible = false
       }
-      this.lab = obj
-      this.dialogVisible = true
     },
-    closeDialog(){
-      this.lab = ''
-      this.dialogVisible = false
+    mounted() {
+      this.init()
     }
-  },
-  mounted() {
-    this.init()
   }
-}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   @import "./../../styles/variables";
-.usersContainer{
-  padding: 25px 0;
-  .usersTop{
-    background: #fff;
-    display: flex;
-    padding:20px;
-    img{
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border:solid 1px #ccc;
-      margin-right: 20px;
-    }
-    div{
-      flex: 1;
-      p{margin: 17px 0;}
-      p:first-child{
-        position: relative;
-        font-weight: bold;
-        top:0px;
-        font-size: 22px;
-        line-height: 15px;
-      }
-    }
-  }
-  .usersContent{
-    margin: 25px;
-    .contBox {
-      display: flex;
-      .workCalendar {
-        background: #fff;
-        margin-right: 15px;
-        border-radius: 5px 5px 0px 0px;
-        flex: 2;
-        .title{
-          padding: 15px;
-          border-bottom: solid 1px #ccc;
-          font-size: 16px;
-          font-weight: bold;
-        }
-        .contentItem{
-          min-height: 350px;
-        }
-      }
-      .shortcutEntrance {
-        background: #fff;
-        border-radius: 5px 5px 0px 0px;
-        flex: 1;
-        .title{
-          padding: 15px;
-          border-bottom: solid 1px #ccc;
-          font-size: 16px;
-          font-weight: bold;
-        }
-        .contentItem{
-          padding: 15px;
-          span{
-            display: inline-block;
-            border-radius: 3px;
-            background: $green;
-            color:#fff;
-            padding: 8px 16px;
-            margin-right: 10px;
-          }
-        }
-      }
-    }
-    .advContent{
-      margin: 15px 0;
+  .usersContainer{
+    padding: 25px 0;
+    .usersTop{
       background: #fff;
-      border-radius: 5px 5px 0px 0px;
-      .title{
-        font-size: 16px;
-        padding: 20px;
-        font-weight: bold;
-        border-bottom: solid 1px #ccc;
+      display: flex;
+      padding:20px;
+      img{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border:solid 1px #ccc;
+        margin-right: 20px;
       }
-      .contentItem{
-        padding:0 30px;
-        min-height: 350px;
-        .item{
-          display: flex;
-          border-bottom: solid 1px #ccc;
-          img{
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-right: 10px;
+      div{
+        flex: 1;
+        p{margin: 17px 0;}
+        p:first-child{
+          position: relative;
+          font-weight: bold;
+          top:0px;
+          font-size: 22px;
+          line-height: 15px;
+        }
+      }
+    }
+    .usersContent{
+      margin: 25px;
+      .contBox {
+        display: flex;
+        .workCalendar {
+          background: #fff;
+          margin-right: 15px;
+          border-radius: 5px 5px 0px 0px;
+          flex: 2;
+          .title{
+            padding: 15px;
+            border-bottom: solid 1px #ccc;
+            font-size: 16px;
+            font-weight: bold;
           }
-          p{
-            margin: 15px 0;
+          .contentItem{
+            min-height: 350px;
+          }
+        }
+        .shortcutEntrance {
+          background: #fff;
+          border-radius: 5px 5px 0px 0px;
+          flex: 1;
+          .title{
+            padding: 15px;
+            border-bottom: solid 1px #ccc;
+            font-size: 16px;
+            font-weight: bold;
+          }
+          .contentItem{
+            padding: 15px;
             span{
-              color:$blue;
-              font-weight: 500;
+              display: inline-block;
+              border-radius: 3px;
+              background: $green;
+              color:#fff;
+              padding: 8px 16px;
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+      .advContent{
+        margin: 15px 0;
+        background: #fff;
+        border-radius: 5px 5px 0px 0px;
+        .title{
+          font-size: 16px;
+          padding: 20px;
+          font-weight: bold;
+          border-bottom: solid 1px #ccc;
+        }
+        .contentItem{
+          padding:0 30px;
+          min-height: 350px;
+          .item{
+            display: flex;
+            border-bottom: solid 1px #ccc;
+            img{
+              width: 80px;
+              height: 80px;
+              border-radius: 50%;
+              margin-right: 10px;
+            }
+            p{
+              margin: 15px 0;
+              span{
+                color:$blue;
+                font-weight: 500;
+              }
             }
           }
         }
       }
     }
   }
-}
 </style>

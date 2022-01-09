@@ -75,72 +75,79 @@
 </template>
 
 <script>
-import { applyeLave } from "@/api/hrm/approvalsApi";
+  import { applyeLave } from "@/api/hrm/approvalsApi";
+  import getters from '@/store/getters'
 
-export default {
-  name: "users-table-index",
-  data() {
-    return {
-      dialogImageUrl: "",
-      dialogVisible: false,
-      ruleForm: {
-      },
-      opType: 7,
-      options: [
-        {
-          value: 7,
-          label: "请假"
+
+  export default {
+    name: "users-table-index",
+    data() {
+      return {
+        dialogImageUrl: "",
+        dialogVisible: false,
+        ruleForm: {
         },
-        {
-          value: 18,
-          label: "调休"
+        opType: 7,
+        options: [
+          {
+            value: 7,
+            label: "请假"
+          },
+          {
+            value: 18,
+            label: "调休"
+          }
+        ],
+        duration: 0
+      };
+    },
+    methods: {
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      submitForm() {
+        console.log("optype:", this.opType);
+        this.applyLeave()
+      },
+      resetForm() {
+        this.ruleForm = {};
+      },
+      async applyLeave(){
+        let sendForm = this.ruleForm;
+        if(this.opType == 7){
+          sendForm.processName = "请假";
+        }else{
+          sendForm.processName = "调休";
         }
-      ],
-      duration: 0
-    };
-  },
-  methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
+        sendForm.duration = this.duration;
+        sendForm.userId = getters.userId;
+        sendForm.processKey = 'process_leave';
+        const { data: saveRes } = await applyeLave(sendForm)
+        if(saveRes.success){
+          this.$message.success(saveRes.message);
+          this.ruleForm = {}
+          this.$emit("closeDialog");
+        }
+      }
     },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    submitForm() {
-      console.log("optype:", this.opType);
-      this.applyLeave()
-    },
-    resetForm() {
-      this.ruleForm = {};
-    },
-    async applyLeave(){
-      let sendForm = this.ruleForm
-      sendForm.holidayType = this.opType
-      const { data: saveRes } = await applyeLave(sendForm)
-      if(saveRes.success){
-        this.ruleForm = {}
-        this.$emit("closeDialog");
+    computed: {
+      computeDuration() {
+        if(this.ruleForm.startTime&&this.ruleForm.endTime){
+          let durationStamp=this.ruleForm.endTime-this.ruleForm.startTime
+          let fourHours=1000*60*60*4
+          let total=Math.floor(durationStamp/fourHours)
+          this.duration=Math.floor(total/2)+(total%2*0.5)
+        }
+        return this.duration;
       }
     }
-  },
-  computed: {
-    computeDuration() {
-      let duration = 0
-      if(this.ruleForm.startTime&&this.ruleForm.endTime){
-        let durationStamp=this.ruleForm.endTime-this.ruleForm.startTime
-        let fourHours=1000*60*60*4
-        let total=Math.floor(durationStamp/fourHours)
-        duration=Math.floor(total/2)+(total%2*0.5)
-      }
-      return duration;
-    }
-  }
-};
+  };
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-@import "./../../styles/variables";
-// .usersContainer {
-// }
+  @import "./../../styles/variables";
 </style>

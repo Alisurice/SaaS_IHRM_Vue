@@ -1,6 +1,6 @@
 import { login, logout, profile } from '@/api/base/frame'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-
+import getters from '@/store/getters'
 const user = {
   state: {
     user: '',
@@ -80,6 +80,7 @@ const user = {
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.company)
           commit('SET_APPROVALS', data.approvals)
+          getters.userId = data.userId
           resolve(response)
         }).catch(error => {
           reject(error)
