@@ -44,11 +44,12 @@
           <el-table-column prop="finalOperationTime" label="最后操作时间"></el-table-column>
           <el-table-column :formatter="judgeProcessState" label="审批状态"></el-table-column>
           <el-table-column label="操作">
-            <template slot-scope="item">
-              <el-button v-show="tabLab == 'launch' && (item.row.stateOfApproval == '待审批' || item.row.stateOfApproval == '已驳回')" size="mini" type="primary" @click="clickCancel(item.row.id)">撤销</el-button>
-              <el-button v-show="tabLab == 'approvals'  && item.row.procCurrNodeUserId == userId && item.row.processState != 2" size="mini" type="primary" @click="clickPass(item.row.processId)">通过</el-button>
-              <el-button v-show="tabLab == 'approvals' && item.row.procCurrNodeUserId == userId && item.row.processState != 2" size="mini" type="primary" @click="clickBack(item.row.processId)">驳回</el-button>
-              <el-button size="mini" type="primary" @click="clickDetail(item.row.id,item.row.approvalType)">查看</el-button>
+            <template slot-scope="scope">
+
+              <el-button v-show="tabLab == 'launch' && (scope.row.stateOfApproval == '待审批' || scope.row.stateOfApproval == '已驳回')" size="mini" type="primary" @click="clickCancel(scope.row.id)">撤销</el-button>
+              <el-button v-show="tabLab == 'approvals'  && scope.row.procCurrNodeUserId == userId && scope.row.processState != 2" size="mini" type="primary" @click="clickPass(scope.row.processId)">通过</el-button>
+              <el-button v-show="tabLab == 'approvals' && scope.row.procCurrNodeUserId == userId && scope.row.processState != 2" size="mini" type="primary" @click="clickBack(scope.row.processId)">驳回</el-button>
+              <el-button size="mini" type="primary" @click="clickDetail(scope.row.userId,scope.row.processName)">查看</el-button>
               <el-button size="mini" type="danger">打印</el-button>
             </template>
           </el-table-column>
@@ -122,7 +123,6 @@
     methods: {
       async init() {
         this.userId = getters.userId;
-        console.log(this.userId);
         let sendData = {};
         if (this.tabLab == "launch") {
           sendData.applicant=this.userId
@@ -137,7 +137,7 @@
         sendData.stateOfApprovals=this.approvalsStates
         const { data: listRes } = await approvalsList(sendData);
         if(listRes.success){
-          this.total=listRes.total
+          this.total=listRes.data.total
           this.tableData = listRes.data.rows
         }
       },
