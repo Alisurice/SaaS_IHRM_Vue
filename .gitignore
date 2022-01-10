@@ -17,8 +17,7 @@ selenium-debug.log
 *.njsproj
 *.sln
 *.zip
-img
-
+*.iml
 # Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
 
 modules.xml
